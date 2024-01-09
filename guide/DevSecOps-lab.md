@@ -670,7 +670,7 @@ To generate an API key, navigate to **Settings > Access Control**. Click the `Ad
 
 ![](images/prisma-access-control.png)
 
-Download the csv file containing the credentials.
+Download the csv file containing the credentials then click `Done`.
 
 ![](images/prisma-create-access-key.png)
 
@@ -678,14 +678,14 @@ Download the csv file containing the credentials.
 
 In a terminal window run checkov against the entire `code` directory, now with an API key. Use the following command:
 
-> ![NOTE]
+> [!NOTE]
 > replace the `access_key_id`, `secret_key` and `prisma-api-url` with your values.
 
 ```
 checkov -d . --bc-api-key <access_key_id::<secret_key>= --repo-id prisma/devsecops-workshop --support --prisma-api-url https://api4.prismacloud.io
 ```
 
-![](images/missing.png)
+![need_cloud9_screenshot](images/missing.png)
 
 Notice how the results now contain a severity. There are some other features that come with Prisma Cloud and API key as well... 
 
@@ -697,7 +697,7 @@ Let's add this same API key to the Github Action created earlier. Within your gi
 
 ![](images/github-secrets.png)
 
-Click `Create repository secret`. Input secret value...
+Click `New repository secret` then input the secret value of `<access_key_id>::<secret_key>` pair.
 
 ![](images/github-repo-secret.png)
 ![](images/github-create-secret.png)
@@ -710,7 +710,7 @@ Commit directly to main branch.
 
 <img src="images/gh-commit-directly.png" width="375" height="400" />
 
-Now check the results **Security > Code scanning**. The same findings that displayed here earlier not with a more granual Severity to sort and prioritze with.
+Now check the results under **Security > Code scanning**. The same findings that displayed here earlier now with a **Severity** to sort and prioritze with.
 
 ![](images/gh-security-results.png)
 
