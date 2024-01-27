@@ -699,6 +699,54 @@ Prisma Cloud is a Cloud Native Application Protection Platform (CNAPP) comprised
 
 Across these three "modules", Prisma Cloud provides comprehensive security capabilities spanning code to cloud. This workshop will mainly focus on the Application Security module within the Prisma Cloud platform.
 
+## Onboard AWS Account
+> [!NOTE]
+> Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/enterprise-edition/content-collections/connect/connect-cloud-accounts/onboard-aws/onboard-aws-account)
+
+To begin securing resources running in the cloud, we need to configure Prisma Cloud to communitcate with the CSP and onboard an AWS Account or Organization.
+
+Navigate to **Settings > Providers > Connect Provider** and follow the instructions prompted by the conifguration wizard.
+
+![](images/prisma-cloud-account.png)
+
+Select **Amazon Web Services**.
+
+![](images/prisma-csp-onboarding.png)
+
+Choose **Account** for the scope, deselect **Agentless Workload Scanning**, leave the rest as default and click **Done**.
+
+![](images/prisma-aws1.png)
+
+Provide your **Account ID** and enter an **Account Name**. Then click **Create IAM Role** to have Prisma Cloud auto-configure itself.
+
+![](images/prisma-aws2.png)
+
+Scroll to the bottom of the AWS page that opens, click to **acknowledge** the disclaimer and then click **Create stack**.
+
+![](images/aws-create-stack.png)
+
+Wait a moment while the stack is created, we need an output from the final result of the stack being deployed.
+
+![](images/prisma-cfn.png)
+
+Once created, go to the **Outputs** tab and copy the value of ARN displayed.
+
+![](images/prisma-cfn-output.png)
+
+Head back to Prisma Cloud and paste this value into the **IAM Role ARN** field then click **Next**.
+
+![](images/prisma-aws3.png)
+
+Wait for the connectivity test to run, review the status and click **Save and Close**.
+
+![](images/prisma-aws4.png)
+
+View the onboarded cloud account under **Settings > Providers**.
+
+![](images/prisma-aws-added.png)
+
+Prisma Cloud will now begin to scan the configured AWS Account for misconfigurations associated with deployed resources. Let the initial scan run in the background and we will come back to this in a later section.
+
 ## Integrations and Dashboards
 Prisma Cloud has a wide variety of built-in integrations to help operationalize within a cloud ecosystem.
 
@@ -711,6 +759,7 @@ Notice all of the different tools that can be integrated natively.
 ![](images/prisma-connect-providers.png)
 
 Let's start by integrating with checkov.
+
 
 ## Checkov with API Key
 > [!NOTE] 
@@ -984,54 +1033,6 @@ Check Terraform Cloud to view the plan succesfully run. No need to apply this ru
 
 
 
-## Onboard AWS Account
-> [!NOTE]
-> Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/enterprise-edition/content-collections/connect/connect-cloud-accounts/onboard-aws/onboard-aws-account)
-
-To begin securing resources running in the cloud, we need to configure Prisma Cloud to communitcate with the CSP and onboard an AWS Account or Organization.
-
-Navigate to **Settings > Providers > Connect Provider** and follow the instructions prompted by the conifguration wizard.
-
-![](images/prisma-cloud-account.png)
-
-Select **Amazon Web Services**.
-
-![](images/prisma-csp-onboarding.png)
-
-Choose **Account** for the scope, deselect **Agentless Workload Scanning**, leave the rest as default and click **Done**.
-
-![](images/prisma-aws1.png)
-
-Provide your **Account ID** and enter an **Account Name**. Then click **Create IAM Role** to have Prisma Cloud auto-configure itself.
-
-![](images/prisma-aws2.png)
-
-Scroll to the bottom of the AWS page that opens, click to **acknowledge** the disclaimer and then click **Create stack**.
-
-![](images/aws-create-stack.png)
-
-Wait a moment while the stack is created, we need an output from the final result of the stack being deployed.
-
-![](images/prisma-cfn.png)
-
-Once created, go to the **Outputs** tab and copy the value of ARN displayed.
-
-![](images/prisma-cfn-output.png)
-
-Head back to Prisma Cloud and paste this value into the **IAM Role ARN** field then click **Next**.
-
-![](images/prisma-aws3.png)
-
-Wait for the connectivity test to run, review the status and click **Save and Close**.
-
-![](images/prisma-aws4.png)
-
-View the onboarded cloud account under **Settings > Providers**.
-
-![](images/prisma-aws-added.png)
-
-
-
 
 
 
@@ -1058,7 +1059,27 @@ View the onboarded cloud account under **Settings > Providers**.
 > [!NOTE]
 > Link to docs: [Setup Drift Detection](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/drift-detection)
 
-...
+In this final section, we will use the integrations we setup to detect drift. Drift occurs when infrastructure running in the cloud becomes configured differntly from what was originally defined in code.
+
+This usually occurs during a major incident, where DevOps and SRE teams make manual changes to quickly solve the problem, such as opening up ports to larger CIDR blocks or turning off HTTPS to find the problem, or if there are knowledge or access control gaps that make fixing an issue directly in the cloud is easier than fixing in code and redeploying. If these aren’t reverted, they present security issues and it weakens the benefits of using IaC.
+
+We will use the S3 bucket deployed earlier to simulate drift in a resource configuration.
+
+- NOTE: Scans are on X hour interval 
+
+- Show traced resource policy
+![](images/prisma-traced-resource-policies.png)
+
+
+- Make repo private (required)
+
+- Update tags on s3
+![](images/aws-s3-properties.png)
+
+![](images/aws-tag-drift.png)
+
+- Show results in platform
+
 
 # Wrapping Up
 - congrats! and review of material
