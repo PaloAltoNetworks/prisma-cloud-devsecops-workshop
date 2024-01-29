@@ -916,24 +916,10 @@ Lets push a change to test the integration. Navigate to GitHub and make a change
 
 
 
-Add the following code. Then click **Commit changes...** once complete.
+Add the following line of code to the s3 resource definition. Then click **Commit changes...** once complete.
 
 ```
-resource "aws_s3_bucket_public_access_block" "dev_pab" {
-  bucket = aws_s3_bucket.dev_s3.id
-
-  block_public_acls   = false
-  block_public_policy = false
-}
-
-resource "aws_s3_bucket_acl" "dev_acl" {
-  depends_on = [
-      aws_s3_bucket_public_access_block.dev_pab,
-    ]
-
-  bucket = aws_s3_bucket.dev_s3.id
-  acl    = "public-read-write"
-}
+acl = "public-read-write"
 ```
 
 ![](images/gh-edit-s3.png)
@@ -1031,68 +1017,45 @@ Check Terraform Cloud to view the plan succesfully run. No need to apply this ru
 ![](images/tfc-pr-fix.png)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Drift Detection
 > [!NOTE]
 > Link to docs: [Setup Drift Detection](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/drift-detection)
 
-In this final section, we will use the integrations we setup to detect drift. Drift occurs when infrastructure running in the cloud becomes configured differntly from what was originally defined in code.
+In this final section, we will use the integrations we set up to detect drift. Drift occurs when infrastructure running in the cloud becomes configured differntly from what was originally defined in code.
 
-This usually occurs during a major incident, where DevOps and SRE teams make manual changes to quickly solve the problem, such as opening up ports to larger CIDR blocks or turning off HTTPS to find the problem, or if there are knowledge or access control gaps that make fixing an issue directly in the cloud is easier than fixing in code and redeploying. If these aren’t reverted, they present security issues and it weakens the benefits of using IaC.
+This usually occurs during a major incident, where DevOps and SRE teams make manual changes to quickly solve a problem, such as opening up ports to larger CIDR blocks or turning off HTTPS to find the problem. Sometimes lack of access and/or familiarity with IaC/CICD makes fixing an issue directly in the cloud easier than fixing in code and redeploying. If these aren’t reverted, they present security issues and it weakens the benefits of using IaC.
 
 We will use the S3 bucket deployed earlier to simulate drift in a resource configuration.
 
-- NOTE: Scans are on X hour interval 
+> [!NOTE]
+> By default Prisma Cloud performs full resource scans on an hourly interval 
 
-- Show traced resource policy
+> [!WARNING]
+> VCS repostory must be private and/or part of an Organization for Drift Detection policies to take effect.
+
+Let's first examine the policies associated with drift. Go to **Governance > Overview** and serach for `Traced resources are manually modified`. Notice the policies for each CSP. Ensure the policy for AWS is enabled.
+
 ![](images/prisma-traced-resource-policies.png)
 
+Next, go to the AWS Console under S3 buckets and add a new tag to the bucket created earlier.
 
-- Make repo private (required)
-
-- Update tags on s3
 ![](images/aws-s3-properties.png)
+
+For exmaple, add a tag with the key/value pair `drift` = `true` and click **Save changes**.
 
 ![](images/aws-tag-drift.png)
 
-- Show results in platform
+On the next scan Prisma Cloud will detect this change and notify users that a resource configuration has changed from how it is defined in code. To view this, navigate to **Projects > IaC Misconfiguration** and filter for **Drift** under the **IaC Categories** dropdown menu.
+
+![](images/prisma-drift-result.png)
+
+Prisma Cloud provides the option to revert the change via the same pull request mechanism we just performed which would trigger a pipeline run and patch the resource.
+
 
 
 # Wrapping Up
-- congrats! and review of material
-- some call to action and links ... 
+Congrats! In this workshop, we didn’t just learn how to identify and automate fixing misconfigurations — we learned how to bridge the gaps between Development, DevOps, and Cloud Security. We are now equipped with full visibility, guardrails, and remediation capabilities across the development lifecycle. We also learned how important and easy it is to make security accessible to our engineering teams.
 
+Try more of the integrations with other popular developer and DevOps tools. Share what you’ve found with other members of your team and show how easy it is to incorporate this into their development processes. 
 
-
-
-
-
-
-
-
-
-
-
+You can also check out the [Prisma Cloud DevDay](https://register.paloaltonetworks.com/securitydevdays) to experience more of the platform in action.
