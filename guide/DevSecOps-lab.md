@@ -73,7 +73,7 @@ For DevSecOps to be successful for teams working to build and secure infrastruct
 ## Infrastructure as Code Using Terraform
 Infrastructure as code (IaC) frameworks, such as  HashiCorp Terraform, make cloud provisioning scalable and straightforward by leveraging automation and code. Defining our cloud infrastructure in code simplifies repetitive DevOps tasks and gives us a versioned, auditable source of truth for the state of an environment.
 
-Terraform is useful for defining resource configurations and interacting with APIs in codified, stateful manor. Any updates we want to make, such as adding more instances, or changes to a configuration, can be handled by Terraform. 
+Terraform is useful for defining resource configurations and interacting with APIs in a codified, stateful manor. Any updates we want to make, such as adding more instances, or changes to a configuration, can be handled by Terraform. 
 
 For example, the following Terraform resource block defines a simple AWS S3 bucket:
 
@@ -119,7 +119,6 @@ Once logged in, copy the provided credentials into a local text file and then cl
 ![ee-creds](images/ee-creds.png)
 
 ## Configure IAM User and API Key
-*Skip this section for workshops <100 attendees*
 
 From the AWS console, select `IAM` or search for 'IAM' in the Search bar if not displayed.
 
@@ -232,7 +231,7 @@ pip3 install checkov
 
 
 
-Use the `--version` and `--help` flags to verify the install and view usage / optional arguements 
+Use the `--version` and `--help` flags to verify the install and view usage / optional arguements.
 
 ```
 checkov --version
@@ -240,7 +239,7 @@ checkov --help
 ```
 ![](images/c9-checkov-options.png)
 
-To see a list of every policy that Checkov can enforce, use the `-l` or ` --list` options.
+To see a list of every policy that checkov can enforce, use the `-l` or ` --list` options.
 
 ```
 checkov --list
@@ -253,7 +252,7 @@ Now that you see what checkov can do, let's get some code to scan...
 ## Fork and clone target repository
 This workshop involves code that is vulnerable-by-design. All of the necessary code is contained within [this repository](https://GitHub.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) or workshop guide itself.
 
-To begin, log into GitHub and navigate to the [Prisma Cloud DevSecOps Workshop](https://GitHub.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) repository. Create a `Fork` of this repositry to create a copy of the code in your own account.
+To begin, log into GitHub and navigate to the [Prisma Cloud DevSecOps Workshop](https://GitHub.com/paloAltoNetworks/prisma-cloud-devsecops-workshop) repository. Create a `Fork` of this repository to create a copy of the code in your own account.
 
 ![](images/gh-fork.png)
 
@@ -266,7 +265,7 @@ Grab the repo URL from GitHub, then clone the **forked** repository to Cloud9.
 ![](images/gh-clone.png)
 
 ```
-git clone https://GitHub.com/<your-organization>/prisma-cloud-devsecops-workshop.git
+git clone https://github.com/<your-organization>/prisma-cloud-devsecops-workshop.git
 cd prisma-cloud-devsecops-workshop/
 git status
 
@@ -295,7 +294,7 @@ checkov -d .
 ```
 ![](images/c9-checkov-d.png)
 
-Failed checks are returned containing: the offending file and resource, the lines of code that triggered the policy, and a guide to fix the issue.
+Failed checks are returned containing the offending file and resource, the lines of code that triggered the policy, and a guide to fix the issue.
 
 ![](images/checkov-result.png)
 
@@ -322,7 +321,7 @@ checkov -f deployment_s3.tf --check CKV_AWS_18,CKV_AWS_52
 checkov -f deployment_s3.tf --skip-check CKV_AWS_18,CKV_AWS_52
 ```
 
-Frameworks can also be selected or omitted for a particular scan:
+Frameworks can also be selected or omitted for a particular scan.
 
 
 ```
@@ -409,7 +408,7 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 ## Integrate with GitHub Actions
 Now that we are more familiar with some of checkov's basic functionality, let's see what it can do when integrated with other tools like GitHub Actions.
 
-You can leverage GitHub actions to run automated scans for every build or specific builds, such as the ones that merge into the master branch. This action can alert on misconfigurations, or block code from being merged if certain policies are violated. Results can also be sent to Prisma Cloud and other sources for further review and remediation steps.
+You can leverage GitHub Actions to run automated scans for every build or specific builds, such as the ones that merge into the master branch. This action can alert on misconfigurations, or block code from being merged if certain policies are violated. Results can also be sent to Prisma Cloud and other sources for further review and remediation steps.
 
 Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratich.
 
@@ -471,7 +470,7 @@ Verify that the action is running (or has run) by navigating back to the `Action
 > The action will result in a "Failure" (❌) on the first run, why does this happen?
 
 
-View the results of the run by clickiing on the `Create checkov.yaml` link.
+View the results of the run by clicking on the `Create checkov.yaml` link.
 
 ![](images/gh-actions-results.png)
 
@@ -481,7 +480,7 @@ Notice the policy violations that were seen earlier in CLI/Cloud9 are now displa
 Checkov natively supports SARIF format and generates this output by default. GitHub Security accepts SARIF for uploading security issues. The GitHub Action created earlier handles the plumbing between the two.
 
 
-Navigate to the `Security` tab in GitHub, the click `Code scanning` from the left sidebar or `View alerts` in the Security overview > Code scanning alerts section.
+Navigate to the `Security` tab in GitHub, the click `Code scanning` from the left sidebar or `View alerts` in the **Security overview > Code scanning alerts** section.
 
 ![](images/ghas-overview.png)
 
@@ -553,7 +552,7 @@ Enter `main` as the `Branch name pattern`. Then select `Require status checks to
 
 
 ## BONUS: Pre-commit Hooks
-Checkov can also be configured as pre-commit hook. Read how to set them up [here!](https://www.checkov.io/4.Integrations/pre-commit.html)
+Checkov can also be configured as a pre-commit hook. Read how to set up [here!](https://www.checkov.io/4.Integrations/pre-commit.html)
 
 
 ## Integrate workflow with Terraform Cloud
@@ -653,7 +652,7 @@ Wait for the checks to run. Then take note of the result: a blocked pull request
 
 ![](images/gh-blocked-pr.png)
 
-Either bypass branch protections and `Merge pull request` or go back to the GitHub Action for checkov and uncomment the line with `--soft-fail=true`. This will require closing and reopening a new pull request.
+Either bypass branch protections and `Merge pull request` or go back to the GitHub Action for checkov and uncomment the line with `--soft-fail=true`. This will require closing and reopening the pull request.
 
 > **⍰  Question** 
 >
@@ -703,7 +702,7 @@ Across these three "modules", Prisma Cloud provides comprehensive security capab
 > [!NOTE]
 > Link to docs: [Onboard AWS Account](https://docs.prismacloud.io/en/enterprise-edition/content-collections/connect/connect-cloud-accounts/onboard-aws/onboard-aws-account)
 
-To begin securing resources running in the cloud, we need to configure Prisma Cloud to communitcate with the CSP and onboard an AWS Account or Organization.
+To begin securing resources running in the cloud, we need to configure Prisma Cloud to communitcate with a CSP. Let's do this by onboarding an AWS Account.
 
 Navigate to **Settings > Providers > Connect Provider** and follow the instructions prompted by the conifguration wizard.
 
@@ -733,7 +732,7 @@ Once created, go to the **Outputs** tab and copy the value of ARN displayed.
 
 ![](images/prisma-cfn-output.png)
 
-Head back to Prisma Cloud and paste this value into the **IAM Role ARN** field then click **Next**.
+Head back to Prisma Cloud and paste this value into the **IAM Role ARN** field, then click **Next**.
 
 ![](images/prisma-aws3.png)
 
@@ -802,8 +801,9 @@ Let's add this same API key to the GitHub Action created earlier. Within your Gi
 
 Click `New repository secret` then input the secret value of `<access_key_id>::<secret_key>` pair.
 
-![](images/GitHub-repo-secret.png)
-![](images/GitHub-create-secret.png)
+![](images/github-repo-secret.png)
+
+![](images/github-create-secret.png)
 
 Edit `checkov.yaml`, remove comments for `api-key` and `PRISMA_API_URL`.
 
@@ -828,7 +828,7 @@ Return again to Prisma Cloud to view the results that were sent to the the platf
 > [!NOTE] 
 > Link to docs: [Connect Terraform Cloud - Run Tasks](https://docs.prismacloud.io/en/enterprise-edition/content-collections/application-security/get-started/connect-code-and-build-providers/ci-cd-runs/add-terraform-run-tasks)
 
-Let's now conenct Prisma Cloud with Terraform Cloud using the Run Tasks integration. This allows for dynamic, automated, and context-specific scans within your Terraform workspace.
+Let's now conenct Prisma Cloud with Terraform Cloud using the Run Tasks integration. This allows for developers and platform teams to get immediate security feedback for every pipeline run. The Run Task integration will also surface results of every pipeline run to Prisma Cloud and the Security team.
 
 First we need to create an API key in Terraform Cloud. Go to the Terraform Cloud console and navigate to **User Settings > Tokens** then click **Create an API Token**.
 
@@ -925,7 +925,7 @@ acl = "public-read-write"
 ![](images/gh-edit-s3.png)
 
 
-Create a new branch and click **Propose changes**
+Create a new branch and click **Propose changes**.
 
 <img src="images/gh-propose-changes.png" width="450" height="525" />
 
@@ -1004,7 +1004,7 @@ Navigate back to GitHub and check the **Pull request** tab to see the fix Prisma
 
 ![](images/gh-pr-fix1.png)
 
-Drill into the pull request and inspec the file changes under the **Files changes** tab. Notice the changes made to remediate the original policy violation.
+Drill into the pull request and inspect the file changes under the **Files changes** tab. Notice the changes made to remediate the original policy violation.
 
 ![](images/gh-pr-fix2.png)
 
@@ -1021,14 +1021,14 @@ Check Terraform Cloud to view the plan succesfully run. No need to apply this ru
 > [!NOTE]
 > Link to docs: [Setup Drift Detection](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/drift-detection)
 
-In this final section, we will use the integrations we set up to detect drift. Drift occurs when infrastructure running in the cloud becomes configured differntly from what was originally defined in code.
+In this final section, we will use the pipeline we built to detect drift. Drift occurs when infrastructure running in the cloud becomes configured differntly from what was originally defined in code.
 
-This usually occurs during a major incident, where DevOps and SRE teams make manual changes to quickly solve a problem, such as opening up ports to larger CIDR blocks or turning off HTTPS to find the problem. Sometimes lack of access and/or familiarity with IaC/CICD makes fixing an issue directly in the cloud easier than fixing in code and redeploying. If these aren’t reverted, they present security issues and it weakens the benefits of using IaC.
+This usually happens during a major incident, where DevOps and SRE teams make manual changes to quickly solve a problem, such as opening up ports to larger CIDR blocks or turning off HTTPS to find the problem. Sometimes lack of access and/or familiarity with IaC/CICD makes fixing an issue directly in the cloud easier than fixing in code and redeploying. If these aren’t reverted, they present security issues and it weakens the benefits of using IaC.
 
 We will use the S3 bucket deployed earlier to simulate drift in a resource configuration.
 
 > [!NOTE]
-> By default Prisma Cloud performs full resource scans on an hourly interval 
+> By default Prisma Cloud performs full resource scans on an hourly interval. 
 
 > [!WARNING]
 > VCS repostory must be private and/or part of an Organization for Drift Detection policies to take effect.
@@ -1041,7 +1041,7 @@ Next, go to the AWS Console under S3 buckets and add a new tag to the bucket cre
 
 ![](images/aws-s3-properties.png)
 
-For exmaple, add a tag with the key/value pair `drift` = `true` and click **Save changes**.
+For example, add a tag with the key/value pair `drift` = `true` and click **Save changes**.
 
 ![](images/aws-tag-drift.png)
 
