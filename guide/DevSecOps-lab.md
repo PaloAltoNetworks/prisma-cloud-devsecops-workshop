@@ -37,6 +37,7 @@ This guide provides step-by-step instructions to integrate **Prisma Cloud** (and
 
 - [Section 2: Application Security with Prisma Cloud](#section-2-application-security-with-prisma-cloud)
   - [Welcome to Prisma Cloud](#welcome-to-prisma-cloud)
+  - [Onboard AWS account](#onboard-aws-account)
   - [Integrations and Dashboards](#integrations-and-dashboards)
   - [Checkov with API Key](#checkov-with-api-key)
   - [Terraform Cloud Run Tasks](#terraform-cloud-run-tasks)
@@ -44,7 +45,7 @@ This guide provides step-by-step instructions to integrate **Prisma Cloud** (and
   - [Submit a Pull Request 2.0](#submit-a-pull-request-20)
   - [View scan results in Prisma Cloud](#view-scan-results-in-prisma-cloud)
   - [Issue a PR Fix](#issue-a-pr-fix)
-  - [Onboard AWS account](#onboard-aws-account)
+
   - [Drift Detection](#drift-detection)
 
 - [Wrapping Up](#wrapping-up)
