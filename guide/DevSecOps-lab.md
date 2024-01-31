@@ -45,7 +45,6 @@ This guide provides step-by-step instructions to integrate **Prisma Cloud** (and
   - [Submit a Pull Request 2.0](#submit-a-pull-request-20)
   - [View scan results in Prisma Cloud](#view-scan-results-in-prisma-cloud)
   - [Issue a PR Fix](#issue-a-pr-fix)
-
   - [Drift Detection](#drift-detection)
 
 - [Wrapping Up](#wrapping-up)
@@ -605,7 +604,7 @@ Click `Configure variables`
 
 <img src="images/tfc-configure-variables.png" width="700" height="450" />
 
-Add variables for `AWS_SECRET_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Ensure you select `Environment variables` for both and that `AWS_SECRET_ACCESS_KEY` is marked as `Sensitive`.
+Add variables for `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Ensure you select `Environment variables` for both and that `AWS_SECRET_ACCESS_KEY` is marked as `Sensitive`.
 
 ![](images/tfc-vars1.png)
 
