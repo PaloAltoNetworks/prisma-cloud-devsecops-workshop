@@ -325,7 +325,7 @@ Frameworks can also be selected or omitted for a particular scan.
 
 
 ```
-checkov -d . --framework secrets
+checkov -d . --framework secrets --enable-secret-scan-all-files
 ```
 ```
 checkov -d . --skip-framework dockerfile
@@ -393,10 +393,12 @@ checkov -f simple_ec2.tf --external-checks-dir custom-checks
 ## IDE plugin
 > [!NOTE]
 > *Demo Only. Requires API key for Prisma Cloud.*
+>
+> Link to docs: [Prisma Cloud IDE plugins](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/integrate-ide/integrate-ide)
+>
+> Link to docs: [VScode extension](https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov)
 
-[Prisma Cloud IDE plugins](https://docs.prismacloud.io/en/classic/appsec-admin-guide/get-started/connect-your-repositories/integrate-ide/integrate-ide)
-
-[VScode extension](https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov)
+Enabling checkov in an IDE provides real-time scan results and inline fix suggestions to developers as they create cloud infrastructure and applications.
 
 ![](images/vscode-extension.png)
 
@@ -410,7 +412,7 @@ Now that we are more familiar with some of checkov's basic functionality, let's 
 
 You can leverage GitHub Actions to run automated scans for every build or specific builds, such as the ones that merge into the master branch. This action can alert on misconfigurations, or block code from being merged if certain policies are violated. Results can also be sent to Prisma Cloud and other sources for further review and remediation steps.
 
-Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratich.
+Let's begin by setting an action from the repository page, under the `Actions` tab. Then click on `set up a workflow yourself ->` to create a new action from scratch.
 
 
 <img src="images/gh-actions-new-workflow.png" width="800" height="300" /> 
@@ -835,7 +837,7 @@ Return again to Prisma Cloud to view the results that were sent to the the platf
 > [!NOTE] 
 > Link to docs: [Connect Terraform Cloud - Run Tasks](https://docs.prismacloud.io/en/enterprise-edition/content-collections/application-security/get-started/connect-code-and-build-providers/ci-cd-runs/add-terraform-run-tasks)
 
-Let's now conenct Prisma Cloud with Terraform Cloud using the Run Tasks integration. This allows for developers and platform teams to get immediate security feedback for every pipeline run. The Run Task integration will also surface results of every pipeline run to Prisma Cloud and the Security team.
+Let's now connect Prisma Cloud with Terraform Cloud using the Run Tasks integration. This allows for developers and platform teams to get immediate security feedback for every pipeline run. The Run Task integration will also surface results of every pipeline run to Prisma Cloud and the Security team.
 
 First we need to create an API key in Terraform Cloud. Go to the Terraform Cloud console and navigate to **User Settings > Tokens** then click **Create an API Token**.
 
