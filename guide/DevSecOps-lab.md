@@ -4,7 +4,11 @@ This workshop will demonstrate how to leverage infrastructure as code (IaC) and 
 
 This guide provides step-by-step instructions to integrate **Prisma Cloud** (and **checkov**) with **Terraform Cloud, GitHub, VScode** and **AWS**. 
 
+![](images/workshop-flow.png)
+
 ![](images/devsecops-workflow.png)
+
+
 
 ## Table of Contents
 
