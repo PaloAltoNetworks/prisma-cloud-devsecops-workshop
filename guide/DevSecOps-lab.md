@@ -42,7 +42,7 @@ This guide provides step-by-step instructions to integrate **Prisma Cloud** (and
 - [Section 2: Application Security with Prisma Cloud](#section-2-application-security-with-prisma-cloud)
   - [Welcome to Prisma Cloud](#welcome-to-prisma-cloud)
   - [Onboard AWS account](#onboard-aws-account)
-  - [Integrations and Dashboards](#integrations-and-dashboards)
+  - [Integrations and Providers](#integrations-and-providers)
   - [Checkov with API Key](#checkov-with-api-key)
   - [Terraform Cloud Run Tasks](#terraform-cloud-run-tasks)
   - [GitHub Application](#GitHub-application)
@@ -759,7 +759,7 @@ View the onboarded cloud account under **Settings > Providers**.
 
 Prisma Cloud will now begin to scan the configured AWS Account for misconfigurations associated with deployed resources. Let the initial scan run in the background and we will come back to this in a later section.
 
-## Integrations and Dashboards
+## Integrations and Providers
 Prisma Cloud has a wide variety of built-in integrations to help operationalize within a cloud ecosystem.
 
 Navigate to `Settings` at the top, then select `Providers` from the left sidebar. Click the `Connect Provider` button on the top right.
@@ -1043,8 +1043,6 @@ We will use the S3 bucket deployed earlier to simulate drift in a resource confi
 > [!NOTE]
 > By default Prisma Cloud performs full resource scans on an hourly interval. 
 
-> [!WARNING]
-> VCS repostory must be private and/or part of an Organization for Drift Detection policies to take effect.
 
 Let's first examine the policies associated with drift. Go to **Governance > Overview** and serach for `Traced resources are manually modified`. Notice the policies for each CSP. Ensure the policy for AWS is enabled.
 
