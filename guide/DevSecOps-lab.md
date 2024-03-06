@@ -532,7 +532,7 @@ jobs:
 
 ```
 
-Once again, click `Commit changes...` at the top right, then select `commit directly to the main branch` and click `Commit changes`.
+This time, click `Commit changes...` at the top right, then select `Create a new branch` and click `Propose changes`. Click `Create pull request` on the next screen.
 
 
 Check that the action is running, queued, or finished under the `Actions` tab.
