@@ -451,7 +451,7 @@ jobs:
         #PRISMA_API_URL: https://api4.prismacloud.io
         
     - name: Upload SARIF file
-      uses: GitHub/codeql-action/upload-sarif@v2
+      uses: GitHub/codeql-action/upload-sarif@v3
       
       # Results are generated only on a success or failure
       # this is required since GitHub by default won't run the next step
