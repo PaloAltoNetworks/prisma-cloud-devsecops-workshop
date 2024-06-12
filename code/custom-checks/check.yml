@@ -1,0 +1,14 @@
+metadata:
+ name: "Terraform contains local-exec and/or remote-exec provisioner"
+ id: "CKV2_TF_1"
+ category: "GENERAL_SECURITY"
+definition:
+ and:
+  - cond_type: "attribute"
+    resource_types: all
+    attribute: "provisioner/local-exec"
+    operator: "not_exists"
+  - cond_type: "attribute"
+    resource_types: all
+    attribute: "provisioner/remote-exec"
+    operator: "not_exists"
