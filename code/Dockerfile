@@ -1,5 +1,5 @@
 #old ubuntu
-FROM ubuntu:18.04
+FROM ubuntu:18.05
 
 RUN apt update
 RUN apt install -y nginx php-fpm
