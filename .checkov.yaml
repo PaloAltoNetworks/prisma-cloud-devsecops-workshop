@@ -1,0 +1,14 @@
+framework: terraform
+download_external_modules: true
+evaluate_variables: true
+var_files:
+  - "*.tfvars"
+
+skip_path:
+  - "**/.terraform/*"
+  - "**/examples/**"
+  - "**/test/**"
+
+soft_fail: true  # monitor mode
+quiet: true
+
