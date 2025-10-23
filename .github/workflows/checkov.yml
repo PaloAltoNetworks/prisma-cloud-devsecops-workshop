@@ -1,0 +1,82 @@
+name: Terraform Security (Checkov)
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+      - '**/terraform.lock.hcl'
+      - '.checkov.yaml'
+  push:
+    branches: [ main, master ]
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+      - '**/terraform.lock.hcl'
+      - '.checkov.yaml'
+
+permissions:
+  contents: read
+  security-events: write  # needed for SARIF upload (PR annotations / Code scanning)
+  actions: read
+
+concurrency:
+  group: checkov-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checkov:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Checkov
+        run: pip install --upgrade checkov
+
+      - name: Run Checkov (monitor mode)
+        continue-on-error: true
+        run: |
+          mkdir -p results
+          checkov \
+            --directory . \
+            --framework terraform \
+            --download-external-modules true \
+            --output sarif \
+            --output-file-path results/checkov.sarif \
+            --quiet \
+            --soft-fail true
+
+      - name: Upload SARIF to GitHub Code Scanning
+        # If your repo is private and doesn't have Advanced Security,
+        # this step may fail; the job stays green thanks to continue-on-error above.
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results/checkov.sarif
+          category: checkov
+
+      - name: Emit human-friendly text report (non-blocking)
+        continue-on-error: true
+        run: |
+          checkov \
+            --directory . \
+            --framework terraform \
+            --download-external-modules true \
+            --output cli \
+            --quiet \
+            --soft-fail true | tee checkov.txt
+
+      - name: Upload text artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-cli-report
+          path: checkov.txt
+
